@@ -11,8 +11,9 @@ export default class FilteringAndSortingWithSelectedColumn extends LightningElem
     @wire(getContactList)
     contactHandler({data,error}){
        if(data){ console.log(data)
-        this.fullTableData = data
-        this.filteredData =data
+        this.fullTableData = data // store here so it would never change
+        this.filteredData =data // this is the manupilated data
+        
         }
        if (error){
            console.error(error)
@@ -52,7 +53,7 @@ export default class FilteringAndSortingWithSelectedColumn extends LightningElem
             },500)
         }
         else {
-                this.filteredData = [...this.fullTableData]
+                this.filteredData = [...this.fullTableData]  // if there is no data we are updating the data with full data
         }
        
     }
