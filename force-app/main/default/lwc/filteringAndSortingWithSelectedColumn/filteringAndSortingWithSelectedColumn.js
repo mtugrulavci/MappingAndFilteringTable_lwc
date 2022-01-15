@@ -33,9 +33,8 @@ export default class FilteringAndSortingWithSelectedColumn extends LightningElem
     
     filterHandler(event){
         const {value} = event.target
- 
+        window.clearTimeout(this.timer)
         if(value){
-            window.clearTimeout(this.timer)
                    //console.log(value)
             this.timer = window.setTimeout(()=>{ // putting some bouncing
             this.filteredData = this.fullTableData.filter(eachObj=>{
