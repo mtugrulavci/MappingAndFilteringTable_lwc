@@ -10,6 +10,13 @@
                     <lightning-input type="text" label="Filter" onkeyup={filterHandler}>
                     </lightning-input>
                 </lightning-layout-item>
+
+  
+            <lightning-layout-item size="2" alignment-bump="left" padding="around-small">
+                <lightning-combobox name="sortedBy" value={sortedBy} label="Sort By"
+                options={SortByOptions} onchange={sortHandler}></lightning-combobox>
+            </lightning-layout-item>
+
             </lightning-layout>
            <table>
                <thead>

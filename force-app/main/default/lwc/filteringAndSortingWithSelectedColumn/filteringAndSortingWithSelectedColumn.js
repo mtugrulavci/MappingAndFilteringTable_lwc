@@ -7,12 +7,14 @@ export default class FilteringAndSortingWithSelectedColumn extends LightningElem
     filteredData =[]
     timer
     filterBy ="Name"
+    sortedBy ="Name"
+    sortDirection ='asc'
 
     @wire(getContactList)
     contactHandler({data,error}){
        if(data){ console.log(data)
         this.fullTableData = data // store here so it would never change
-        this.filteredData =data // this is the manupilated data
+        this.filteredData =[...this.sortBy(data)] // this is the manupilated data
         
         }
        if (error){
@@ -21,11 +23,19 @@ export default class FilteringAndSortingWithSelectedColumn extends LightningElem
     }
     get FilterByOptions(){
         return [
+            {label:'All',value:'All'},
             {label:'Id',value:'Id'},
             {label:'Name',value:'Name'},
             {label:'Title',value:'Title'},
-            {label:'Email',value:'Email'},
-            {label:'All',value:'All'}
+            {label:'Email',value:'Email'}
+        ]
+    }
+    get SortByOptions(){
+        return [
+            {label:'Id',value:'Id'},
+            {label:'Name',value:'Name'},
+            {label:'Title',value:'Title'},
+            {label:'Email',value:'Email'}
         ]
     }
     filterByHandler(event){
@@ -56,5 +66,22 @@ export default class FilteringAndSortingWithSelectedColumn extends LightningElem
                 this.filteredData = [...this.fullTableData]  // if there is no data we are updating the data with full data
         }
        
+    }
+    /**** Sorting Logic here */
+    sortHandler(event){
+        this.sortedBy= event.target.value
+        this.filteredData =[...this.sortBy(this.filteredData)]
+    }
+    sortBy(data){
+        const cloneData = [...data]
+        cloneData.sort((a,b)=>{
+            if(a[this.sortedBy]=== b[this.sortedBy]){
+                return 0
+            }
+            return this.sortDirection ==='desc' ? 
+            a[this.sortedBy]> b[this.sortedBy]? -1:1 :
+            a[this.sortedBy]< b[this.sortedBy]? -1:1
+        })
+        return cloneData
     }
 }
